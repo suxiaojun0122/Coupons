@@ -1,5 +1,6 @@
 <template>
 	<view class="content">
+		<image src="../../static/syheader.png" class="header"></image>
 		<view class='home'>
 			<swiper indicator-dots circular autoplay interval=3000>
 				<swiper-item v-for="(item,index) in swipers" :key="index" @tap="swipersbtn(index)">
@@ -8,12 +9,12 @@
 			</swiper>
 		</view>
 		<view class="textimglist flexcolumn">
-			<view class="textimglist_con flexstart" @tap="eventdetailsbtn">
-				<view class="textimglist_text">文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</view>
-				<image src="../../static/wyb.jpg" mode='aspectFill'></image>
-			</view>
-			<view class="textimglist_con flex">
-				<view>文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字文字</view>
+			<view class="textimglist_con flexcenter" @tap="eventdetailsbtn">
+				<text class="text_a">旅游节优惠券</text>
+				<view class="text_b">
+					<text>更多</text>
+					<image src="../../static/right.png"></image>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -51,28 +52,53 @@
 </script>
 
 <style scoped lang="scss">
+	.header{
+		display: block;
+		height: 128rpx;
+		width: 100%;
+	}
 	.home {
 		swiper {
-			width: 100%;
+			width: 690rpx;
+			margin: auto;
+			border-radius: 10rpx;
+			margin-top: 30rpx;
+			margin-bottom: 20rpx;
 		}
 		image {
 			width: 100%;
+			height: 100%;
+			border-radius: 10rpx;
 		}
 	}
 	.textimglist{
-		width: 100%;
-		margin-top: 20rpx;
+		height: 687rpx;
+		background: #FFFFFF;
+		border-radius: 15rpx;
+		border: 1px solid #333333;
+		margin: 0rpx 30rpx;
+		padding:0rpx 20rpx 20rpx 20rpx;
+		box-sizing: border-box;
 		.textimglist_con{
-			width: 690rpx;
-			margin:0rpx auto 20rpx auto;
-			border-bottom: 1px solid #333333;
-			padding-bottom: 20rpx;
-			.textimglist_text{
-				width:550rpx;
+			height: 92rpx;
+			.text_a{
+				font-size: 34rpx;
+				font-weight: bold;
+				color: #030303;
 			}
-			image{
-				width: 200rpx;
-				height: 150rpx;
+			.text_b{
+				margin-left: auto;
+				text{
+					font-size: 24rpx;
+					font-weight: bold;
+					color: #606060;
+					height: 34rpx;
+					margin-right: 17rpx;
+				}
+				image{
+					width: 12rpx;
+					height: 22rpx;
+				}
 			}
 		}
 	}

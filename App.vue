@@ -32,4 +32,7 @@
 	// @import './common/common.css';
 	// @import './common/ask_for_leave.css';
 	/*每个页面公共css */
+	page{
+		font-family:'PingFang SC,思源雅黑';
+	}
 </style>
