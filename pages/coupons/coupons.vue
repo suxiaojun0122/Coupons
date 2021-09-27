@@ -26,11 +26,14 @@
 					</view>
 				</view>
 				<view class="bottom_con flexcenter">
-					<view class="let_b flexcenter">
+					<view class="let_b flexstart">
 						<image src="../../static/twoma.png"></image>
-						可在以下合作方消费时抵扣
+						<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
+							:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
+							text-indent='0'>
+							<rich-text :nodes="content"></rich-text>
+						</u-read-more>
 					</view>
-					<image class="img_let" src="../../static/bottom.png"></image>
 				</view>
 			</view>
 			<view class="volume">
@@ -56,13 +59,7 @@
 						<image class="rig_img" src="../../static/folwer.png"></image>
 					</view>
 				</view>
-				<view class="bottom_con flexcenter">
-					<view class="let_b flexcenter">
-						<image src="../../static/twoma.png"></image>
-						可在以下合作方消费时抵扣
-					</view>
-					<image class="img_let" src="../../static/bottom.png"></image>
-				</view>
+				
 			</view>
 		</view>
 	</view>
@@ -72,6 +69,12 @@
 		export default {
 			data(){
 				return{
+					content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容111',
+					shadowStyle: {
+						backgroundImage: "none",
+						paddingTop: "0",
+						marginTop: "20rpx"
+					},
 				}
 			},
 			onLoad() {
@@ -98,6 +101,21 @@
 		border-radius: 15rpx;
 	}
 	//优惠券样式开始
+	/deep/.u-content {
+		font-size: 24rpx !important;
+		font-size: 24rpx;
+		font-weight: 500;
+		color: #000000;
+		padding-top: 16rpx;
+		padding-bottom: 18rpx;
+		width: 530rpx;
+	}
+	
+	/deep/.u-content__showmore-wrap {
+		flex: 1;
+		margin-right: 30rpx;
+		margin-left: auto;
+	}
 	.volume {
 		background: #E2F0D9;
 		border-radius: 15rpx;
@@ -190,7 +208,6 @@
 		}
 	
 		.bottom_con {
-			height: 70rpx;
 			border-top: 1px dashed #FFFFFF;
 	
 			.let_b {
@@ -204,6 +221,11 @@
 					height: 30rpx;
 					margin-left: 20rpx;
 					margin-right: 20rpx;
+					margin-top: 22rpx;
+				}
+				.readmore {
+					flex: 1;
+					line-height: 36rpx;
 				}
 			}
 	

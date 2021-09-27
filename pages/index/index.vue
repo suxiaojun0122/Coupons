@@ -41,11 +41,14 @@
 						</view>
 					</view>
 					<view class="bottom_con flexcenter">
-						<view class="let_b flexcenter">
+						<view class="let_b flexstart">
 							<image src="../../static/twoma.png"></image>
-							可在以下合作方消费时抵扣
+							<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
+								:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
+								text-indent='0'>
+								<rich-text :nodes="content"></rich-text>
+							</u-read-more>
 						</view>
-						<image class="img_let" src="../../static/bottom.png"></image>
 					</view>
 				</view>
 				<view class="volume">
@@ -72,11 +75,14 @@
 						</view>
 					</view>
 					<view class="bottom_con flexcenter">
-						<view class="let_b flexcenter">
+						<view class="let_b flexstart">
 							<image src="../../static/twoma.png"></image>
-							可在以下合作方消费时抵扣
+							<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
+								:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
+								text-indent='0'>
+								<rich-text :nodes="contents"></rich-text>
+							</u-read-more>
 						</view>
-						<image class="img_let" src="../../static/bottom.png"></image>
 					</view>
 				</view>
 			</view>
@@ -118,7 +124,14 @@
 			return {
 				swipers: [],
 				imglist: [],
-				imglistone:[]
+				imglistone: [],
+				content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容111',
+				contents:'sxj',
+				shadowStyle: {
+					backgroundImage: "none",
+					paddingTop: "0",
+					marginTop: "20rpx"
+				},
 			}
 		},
 		onLoad() {
@@ -134,7 +147,7 @@
 				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",
 				"https://app-file.beitaichufang.com/img/H5/web/banner/banner23.jpg"
 			];
-			this.imglistone=[
+			this.imglistone = [
 				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",
 				"https://app-file.beitaichufang.com/img/H5/web/banner/banner23.jpg"
 			]
@@ -146,7 +159,7 @@
 			},
 			//点击活动详情
 			eventdetailsbtn() {
-				
+
 			}
 		}
 	}
@@ -212,6 +225,22 @@
 	}
 
 	//优惠券样式开始
+	/deep/.u-content {
+		font-size: 24rpx !important;
+		font-size: 24rpx;
+		font-weight: 500;
+		color: #000000;
+		padding-top: 16rpx;
+		padding-bottom: 18rpx;
+		width: 530rpx;
+	}
+
+	/deep/.u-content__showmore-wrap {
+		flex: 1;
+		margin-right: 30rpx;
+		margin-left: auto;
+	}
+
 	.volume {
 		background: #E2F0D9;
 		border-radius: 15rpx;
@@ -249,6 +278,7 @@
 				color: #000000;
 				text-align: center;
 			}
+
 			.bigmoney_a {
 				font-size: 24rpx;
 				height: 24rpx;
@@ -262,6 +292,7 @@
 		.topright_con {
 			padding-bottom: 26rpx;
 			border-left: 1px dashed #FFFFFF;
+
 			.rig_img {
 				display: block;
 				width: 130rpx;
@@ -304,7 +335,7 @@
 		}
 
 		.bottom_con {
-			height: 70rpx;
+			// height: 70rpx;
 			border-top: 1px dashed #FFFFFF;
 
 			.let_b {
@@ -318,6 +349,12 @@
 					height: 30rpx;
 					margin-left: 20rpx;
 					margin-right: 20rpx;
+					margin-top: 22rpx;
+				}
+
+				.readmore {
+					flex: 1;
+					line-height: 36rpx;
 				}
 			}
 
@@ -330,8 +367,9 @@
 			}
 		}
 	}
+
 	//优惠券样式结束
-	
+
 	.textimglist_a {
 		background: #FFFFFF;
 		border-radius: 15rpx;
@@ -366,25 +404,29 @@
 				}
 			}
 		}
-		.textimglist_con_b{
+
+		.textimglist_con_b {
 			width: 100%;
-			view{
+
+			view {
 				width: 320rpx;
 				height: 227rpx;
 				margin-bottom: 10rpx;
-				image{
+
+				image {
 					display: inline-block;
 					width: 320rpx;
 					height: 227rpx;
 				}
 			}
-			view:nth-child(odd){
+
+			view:nth-child(odd) {
 				margin-right: 10rpx;
 			}
-			
+
 		}
 	}
-	
+
 	.textimglist_b {
 		background: #FFFFFF;
 		border-radius: 15rpx;
@@ -392,19 +434,19 @@
 		padding: 0rpx 20rpx 10rpx 20rpx;
 		box-sizing: border-box;
 		box-shadow: 0px 0px 10px #ececec;
-	
+
 		.textimglist_con_c {
 			height: 92rpx;
-	
+
 			.text_a {
 				font-size: 34rpx;
 				font-weight: bold;
 				color: #030303;
 			}
-	
+
 			.text_b {
 				margin-left: auto;
-	
+
 				text {
 					font-size: 24rpx;
 					font-weight: bold;
@@ -412,20 +454,23 @@
 					height: 34rpx;
 					margin-right: 17rpx;
 				}
-	
+
 				image {
 					width: 12rpx;
 					height: 22rpx;
 				}
 			}
 		}
-		.textimglist_con_d{
+
+		.textimglist_con_d {
 			width: 100%;
-			view{
+
+			view {
 				width: 100%;
 				height: 230rpx;
 				margin-bottom: 20rpx;
-				image{
+
+				image {
 					display: inline-block;
 					width: 100%;
 					height: 230rpx;
