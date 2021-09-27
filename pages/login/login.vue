@@ -40,18 +40,46 @@
 	export default {
 		data() {
 			return {
-				
+				code:''
 			}
 		},
-		onLoad() {
-
+		onLoad(opction) {
+		this.code=this.getUrlParam('code')
+		console.log(this.code)
+		let url=` https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx1ce7793fbf3e6181&secret=SECRET&code=${this.code}&grant_type=authorization_code`
+		this.getData(url)
 		},
 		methods: {
 			zcbtn() {
-				uni.switchTab({
+				uni.switchTab({	
 					url: '../index/index'
 				})
-			}
+			},
+			getData(url) {
+			    uni.request({
+			        url: url, //仅为示例，并非真实接口地址。
+			        success: (res) => {
+			            console.log('get成功');
+			            console.log(res.data);
+			        },
+			        fail:(res)=>{
+			            console.log('get失败');
+			            console.log(res.data);
+			        }
+			    });
+			},
+			getUrlParam(name) {
+			            //构造一个含有目标参数的正则表达式对象
+			            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			            //匹配目标参数
+			            var r = window.location.search.substr(1).match(reg);
+			            //返回参数
+			            if (r != null) {
+			                return unescape(r[2]);
+			            } else {
+			                return null;
+			            }
+			        }
 		}
 	}
 </script>

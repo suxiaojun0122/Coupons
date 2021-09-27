@@ -3,6 +3,12 @@
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	{
+		"path": "pages/user/user",
+		"style": {
+			"navigationBarTitleText": "我的"
+		}
+	},
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -50,12 +56,7 @@
 				"navigationBarTitleText": "商城"
 			}
 		},
-		{
-			"path": "pages/user/user",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},{
+{
 			"path": "pages/user/couponsdel",
 			"style": {
 				"navigationBarTitleText": "优惠券明细"
@@ -66,15 +67,7 @@
 				"navigationBarTitleText": "我的优惠券"
 			}
 		}
-	    ,{
-            "path" : "AWD/AWD",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
+	    
     ],
 	"tabBar": {
 		"color": "#666666",
