@@ -9,7 +9,7 @@
   "compileType": "miniprogram",
   "libVersion": "",
   "appid": "touristappid",
-  "projectname": "default",
+  "projectname": "coupons",
   "condition": {
     "search": {
       "current": -1,
@@ -24,8 +24,15 @@
       "list": []
     },
     "miniprogram": {
-      "current": -1,
-      "list": []
+      "current": 0,
+      "list": [
+        {
+          "id": 0,
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": ""
+        }
+      ]
     }
   }
 }

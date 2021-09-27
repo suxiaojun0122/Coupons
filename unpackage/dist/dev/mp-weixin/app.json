@@ -1,6 +1,15 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/login/login",
+    "pages/index/index",
+    "pages/index/swipersdeil",
+    "pages/index/eventdetails",
+    "pages/ticket/ticket",
+    "pages/coupons/coupons",
+    "pages/shop/shop",
+    "pages/user/user",
+    "pages/user/couponsdel",
+    "pages/user/mycou"
   ],
   "subPackages": [],
   "window": {
@@ -9,6 +18,33 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap92.json"
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/ticket/ticket",
+        "text": "机票"
+      },
+      {
+        "pagePath": "pages/coupons/coupons",
+        "text": "优惠券"
+      },
+      {
+        "pagePath": "pages/shop/shop",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
 }
