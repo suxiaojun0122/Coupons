@@ -97,6 +97,12 @@ $uni-font-size-paragraph:15px;
 .flexspace{
 	justify-content: space-between;//两端对齐
 }
+.flexworp{
+	flex-wrap: wrap;
+}
 .marginbottom_30{
 	margin-bottom: 30rpx;
+}
+.marginright_10{
+	margin-right: 10rpx;
 }

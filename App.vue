@@ -35,4 +35,7 @@
 	page{
 		font-family:'PingFang SC,思源雅黑';
 	}
+	// uni-swiper{
+	// 	height: 100vh;
+	// }
 </style>
