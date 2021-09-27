@@ -35,6 +35,13 @@
 			}
 		},
 		{
+			"path": "pages/coupons/jgindex",
+			"style": {
+				"navigationBarTitleText": "优惠券领取",
+				"navigationStyle": "custom" // 隐藏系统导航栏
+			}
+		},
+		{
 			"path": "pages/shop/shop",
 			"style": {
 				"navigationBarTitleText": "商城",

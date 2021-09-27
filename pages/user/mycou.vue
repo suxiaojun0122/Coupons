@@ -22,7 +22,7 @@
 											<text>元</text>
 										</view>
 										<view class="bigmoney">{{item.money}}</view>
-										<view class="bigmoney_a">消费满200元</view>
+										<view class="bigmoney_a" v-if="item.state==1">消费满200元</view>
 									</view>
 									<view class="topright_con flexstart" :style="{'border-left':borleft}">
 										<view>

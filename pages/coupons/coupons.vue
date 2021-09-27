@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<!-- 优惠券 -->
-		<view v-if="q_show" class="consty flexcolumn">
+		<view class="consty flexcolumn">
 			<view class="volume">
 				<view class="top_con flexstart">
 					<view class="topleft_con flexcolumn">
@@ -65,20 +65,6 @@
 				</view>
 			</view>
 		</view>
-		<!-- 成功 -->
-		<view v-if="yesshow">
-			<image class="cgimg" src="../../static/cg.png"></image>
-			<view class="oksty">恭喜您，优惠券领取成功！</view>
-			<view class="cgbtn" @tap='ckmec'>查看我的优惠券</view>
-			<view class="fhbtn" @tap="retbtn">返回</view>
-		</view>
-		<!-- 失败-->
-		<view v-if="noshow">
-			<image class="cgimg" src="../../static/sb.png"></image>
-			<view class="oksty">优惠券领取失败</view>
-			<view class="cgbtn">再次领取</view>
-			<view class="fhbtn" @tap="retbtn">返回</view>
-		</view>
 	</view>
 </template>
 
@@ -86,32 +72,17 @@
 		export default {
 			data(){
 				return{
-					q_show:true,
-					yesshow:false,//领取成功
-					noshow:false//领取失败
 				}
 			},
 			onLoad() {
 				
 			},
 			methods:{
-				retbtn(){
-					this.q_show=true
-					this.yesshow=false
-					this.noshow=false
-					// location.reload()
-				},
 				qbtn(){
-					this.q_show=false
-					this.yesshow=true
-					this.noshow=false
-					// location.reload()
-				},
-				ckmec(){
 					uni.navigateTo({
-						url:'../user/mycou'
+						url:'./jgindex'
 					})
-				}
+				},
 			}
 		}
 </script>
