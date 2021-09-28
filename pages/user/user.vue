@@ -29,10 +29,9 @@
 			}
 		},
 		onLoad(option) {
-			//判断是否有code
-			if (this.getUrlParam('code')) {
+			if (this.$getWXCode('code')) {
 				//获取code
-				this.code = this.getUrlParam('code')
+				this.code = this.$getWXCode('code')
 				console.log(this.code)
 				//获取用户信息  --是否登录
 				this.getInfo()
@@ -44,13 +43,15 @@
 			//获取微信授权
 			submitForm() {
 				this.$wxAuthorize();
+				// this.$getWXCode('code');
+				// console.log(this.$getWXCode('code'))
 				// 注意一定要encodeURIComponent 受权成功回调地址  --需要微信开发者平台配置
 				// let url = encodeURIComponent('http://192.168.1.12:8096/#/pages/user/user');
 				// window.location.href =
 				// 	`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf246b0f9a3dd5503&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			},
 			//获取用户信息
-			getInfo() {},
+			// getInfo() {},
 			//跳转优惠券明细
 			mxbtn() {
 				uni.navigateTo({
@@ -64,18 +65,18 @@
 				})
 			},
 			//截取url地址code
-			getUrlParam(name) {
-				//构造一个含有目标参数的正则表达式对象
-				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-				//匹配目标参数
-				var r = window.location.search.substr(1).match(reg);
-				//返回参数
-				if (r != null) {
-					return unescape(r[2]);
-				} else {
-					return null;
-				}
-			}
+			// getUrlParam(name) {
+			// 	//构造一个含有目标参数的正则表达式对象
+			// 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+			// 	//匹配目标参数
+			// 	var r = window.location.search.substr(1).match(reg);
+			// 	//返回参数
+			// 	if (r != null) {
+			// 		return unescape(r[2]);
+			// 	} else {
+			// 		return null;
+			// 	}
+			// }
 		}
 	}
 </script>
