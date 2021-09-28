@@ -114,8 +114,7 @@ function getWXCode(name) {
 
 function wxAuthorize() {
 	// let link = window.location.href;
-	// let link='https://coupon-system-index.huijik.com'
-	let link='http://192.168.30.244:8080'
+	let link = 'https://coupon-system-index.huijik.com';
 	// 已经授权登录过的就不用再授权了
 	// if (store.state.token) return;
 	
@@ -124,7 +123,7 @@ function wxAuthorize() {
 	// 	api.wxAuth(params.code); // 调用后台接口，授权
 	// } else {
 		// let appid = 'wxf246b0f9a3dd5503';
-		let appid='wx4ce755f7bac28529'
+		let appid='wxf246b0f9a3dd5503'
 		let uri = encodeURIComponent(link);
 		let authURL =
 			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
