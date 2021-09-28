@@ -29,19 +29,27 @@
 			}
 		},
 		onLoad(option) {
-			this.user_id = uni.getStorageSync("user_id");
-			this.code = option.code
-			console.log(this.code)
+			//判断是否有code
+			if (this.getUrlParam('code')) {
+				//获取code
+				this.code = this.getUrlParam('code')
+				console.log(this.code)
+				//获取用户信息  --是否登录
+				this.getInfo()
+			} else {
+				console.log('未授权')
+			}
 		},
 		methods: {
+			//获取微信授权
 			submitForm() {
-				let url = encodeURIComponent('http://192.168.1.12:8096/#/pages/login/login'); // 注意一定要encodeURIComponent
-				console.log(url)
-				// window.location.href =
-				// 	`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ce7793fbf3e6181&redirect_uri=http://localhost:8096/#/login&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect`
+				// 注意一定要encodeURIComponent 受权成功回调地址  --需要微信开发者平台配置
+				let url = encodeURIComponent('http://192.168.1.12:8096/#/pages/user/user');
 				window.location.href =
-					`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf246b0f9a3dd5503&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+					`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ce7793fbf3e6181&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			},
+			//获取用户信息
+			getInfo() {},
 			//跳转优惠券明细
 			mxbtn() {
 				uni.navigateTo({
@@ -53,6 +61,19 @@
 				uni.navigateTo({
 					url: './mycou'
 				})
+			},
+			//截取url地址code
+			getUrlParam(name) {
+				//构造一个含有目标参数的正则表达式对象
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				//匹配目标参数
+				var r = window.location.search.substr(1).match(reg);
+				//返回参数
+				if (r != null) {
+					return unescape(r[2]);
+				} else {
+					return null;
+				}
 			}
 		}
 	}
