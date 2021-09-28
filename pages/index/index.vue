@@ -134,7 +134,7 @@
 				},
 			}
 		},
-		onLoad() {
+		onLoad() {			
 			this.swipers = [
 				'https://app-file.beitaichufang.com/img/H5/web/banner/banner20.jpg',
 				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",

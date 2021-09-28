@@ -4,16 +4,18 @@
 		<view class="textname flexcolumn">
 			<view class="telephone flexcenter">
 				<text>手机号码：+86</text>
-				<input placeholder="请输入手机号" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='11' type="number"/>
+				<input placeholder="请输入手机号" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='11'
+					type="number" />
 			</view>
 			<view class="tzpass flexcenter">
 				<text>短信验证码：</text>
-				<input placeholder="请输入短信验证码" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='6' type="number"/>
+				<input placeholder="请输入短信验证码" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='6'
+					type="number" />
 				<view class="button">获取验证码</view>
 			</view>
 			<view class="flexcenter">
 				<view class='btn_zc' @tap="zcbtn">立即注册</view>
-			</view>	
+			</view>
 		</view>
 		<image src="../../static/headerone.png" class="headerimgone"></image>
 		<view class="footone flexcolumn">
@@ -40,76 +42,57 @@
 	export default {
 		data() {
 			return {
-				code:''
+				code: ''
 			}
 		},
 		onLoad(opction) {
-		this.code=this.getUrlParam('code')
-		console.log(this.code)
-		let url=` https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx1ce7793fbf3e6181&secret=SECRET&code=${this.code}&grant_type=authorization_code`
-		this.getData(url)
+			// this.code = this.getUrlParam('code')
+			// console.log(this.code)
 		},
 		methods: {
 			zcbtn() {
-				uni.switchTab({	
+				uni.switchTab({
 					url: '../index/index'
 				})
 			},
 			getData(url) {
-			    uni.request({
-			        url: url, //仅为示例，并非真实接口地址。
-			        success: (res) => {
-			            console.log('get成功');
-			            console.log(res.data);
-			        },
-			        fail:(res)=>{
-			            console.log('get失败');
-			            console.log(res.data);
-			        }
-			    });
+				
 			},
-			getUrlParam(name) {
-			            //构造一个含有目标参数的正则表达式对象
-			            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-			            //匹配目标参数
-			            var r = window.location.search.substr(1).match(reg);
-			            //返回参数
-			            if (r != null) {
-			                return unescape(r[2]);
-			            } else {
-			                return null;
-			            }
-			        }
 		}
 	}
 </script>
 
 <style scoped lang="scss">
-	.headerimg{
+	.headerimg {
 		display: block;
 		width: 100%;
 		height: 408rpx;
 	}
-	.headerimgone{
+
+	.headerimgone {
 		display: block;
 		width: 100%;
 		height: 260rpx;
 	}
-	.textname{
+
+	.textname {
 		height: 407rpx;
 		width: 100%;
 		background: #F2F2F2;
-		.telephone{
+
+		.telephone {
 			margin-left: 30rpx;
 			margin-right: 30rpx;
 			margin-top: 45rpx;
-			text{
+
+			text {
 				font-size: 28rpx;
 				font-weight: bold;
 				color: #030303;
 				width: 200rpx;
 			}
-			input{
+
+			input {
 				width: 470rpx;
 				height: 74rpx;
 				background: #FFFFFF;
@@ -120,19 +103,22 @@
 				font-weight: 500;
 				// color: #A4A4A4;
 			}
-			
+
 		}
-		.tzpass{
+
+		.tzpass {
 			margin-left: 30rpx;
 			margin-right: 30rpx;
 			margin-top: 30rpx;
-			text{
+
+			text {
 				font-size: 28rpx;
 				font-weight: bold;
 				color: #030303;
 				width: 200rpx;
 			}
-			input{
+
+			input {
 				width: 284rpx;
 				height: 74rpx;
 				background: #FFFFFF;
@@ -143,7 +129,8 @@
 				font-weight: 500;
 				// color: #A4A4A4;
 			}
-			.button{
+
+			.button {
 				width: 166rpx;
 				height: 74rpx;
 				background: #FDC101;
@@ -158,23 +145,26 @@
 				margin-left: 20rpx;
 			}
 		}
-		.btn_zc{
-			width:470rpx;
+
+		.btn_zc {
+			width: 470rpx;
 			height: 88rpx;
 			line-height: 84rpx;
 			text-align: center;
 			background: #25AAE5;
 			border-radius: 44px;
-			margin:58rpx auto;
+			margin: 58rpx auto;
 			font-size: 28rpx;
 			font-weight: bold;
 			color: #FFFFFF;
 		}
 	}
-	.footone{
+
+	.footone {
 		margin: 60rpx 28rpx 0rpx 28rpx;
-		.font_a{
-			.font_atext{
+
+		.font_a {
+			.font_atext {
 				width: 279rpx;
 				height: 66rpx;
 				background: #DDEBF8;
@@ -186,17 +176,19 @@
 				color: #000000;
 				margin-right: 12rpx;
 			}
-			.font_btext{
+
+			.font_btext {
 				font-size: 28rpx;
 				font-weight: 500;
 				color: #000000;
 			}
 		}
 	}
-	.footer{
+
+	.footer {
 		margin-top: 67rpx;
 		padding: 0rpx 30rpx 65rpx 30rpx;
 		box-sizing: border-box;
-		
+
 	}
 </style>

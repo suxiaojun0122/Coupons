@@ -10,7 +10,7 @@ window.global_config = {
    // BASE_UR = "http://192.168.29.16:6650/partner";
 
    // ----------------  开发环境地址  ---------------------
-   // BASE_URL: 'https://test-oa-manage.diasia.com/index.php',//test环境
+   BASE_URL: 'https://coupon-system-index.huijik.com',//test环境
 
    // BASE_URL:'http://192.168.30.24/index.php',
    // uat

@@ -80,10 +80,21 @@
 			onLoad() {
 				
 			},
+			mounted(){
+				this.getliat()
+			},
 			methods:{
 				qbtn(){
 					uni.navigateTo({
 						url:'./jgindex'
+					})
+				},
+				getliat() {
+					let that = this;
+					let method = 'post';
+					that.$netReq('/user/coupon_list', method, {}).then(res => {
+						console.log(res)
+					
 					})
 				},
 			}

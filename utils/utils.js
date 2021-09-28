@@ -19,8 +19,6 @@ const netRequest = (url, method = "POST", params, httpHeader = "application/json
 			header: {
 				'content-type': httpHeader,
 				'token': store.state.token,
-				'Authorization': store.state.ticket,
-				// 'Authorization':'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbiI6ImMxMDI1ZTRkNjZmZTk5NWY3MmE3OWJhZTNmYmQ1ZDk4YTVkNzhlZWMzZGY4MzBmMGUxYmIxYTE0Yzg0NDMwYmMifQ.O1tIn3dABNHX9iwp0RJxkmsNPGtSDE6OHS6hkJco0C4',
 			},
 			success(r) {
 				// uni.hideLoading()
@@ -107,14 +105,17 @@ const defineToast = (title, image = "", duration = 2000, mask) => {
 //是否已经获得code
 function getWXCode(name) { 
   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  console.log(window.location.search,'浏览器地址')
   var r = window.location.search.substr(1).match(reg);
+  console.log(r,'code值')
   if (r != null) return decodeURI(r[2]);
   return null;
 }
 
 function wxAuthorize() {
-	// let link = window.location.href;
-	let link = 'https://coupon-system-index.huijik.com';
+	let link = window.location.href;
+	console.log(link,'window.location.href')
+	// let link = 'https://coupon-system-index.huijik.com';
 	// 已经授权登录过的就不用再授权了
 	// if (store.state.token) return;
 	
@@ -129,6 +130,10 @@ function wxAuthorize() {
 			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
 		window.location.href = authURL;
 	// }
+}
+//获取用户信息 是否需要注册  获取token
+function getuser(){
+	
 }
 
 // 规则判断
