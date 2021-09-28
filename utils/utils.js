@@ -6,7 +6,7 @@ import store from '@/store'
 
 
 // 封装请求函数
-const netRequest = (url, method = "POST", params,httpHeader = "application/json") => {
+const netRequest = (url, method = "POST", params, httpHeader = "application/json") => {
 	url = baseURL + url;
 	uni.showLoading({
 		title: '努力加载中...',
@@ -24,8 +24,8 @@ const netRequest = (url, method = "POST", params,httpHeader = "application/json"
 			},
 			success(r) {
 				// uni.hideLoading()
-				setTimeout(function () {
-				    uni.hideLoading();
+				setTimeout(function() {
+					uni.hideLoading();
 				}, 1000);
 				if (r.data.code == 401 || r.data.code == 1006) {
 					defineToast(r.data.code)
@@ -103,6 +103,32 @@ const defineToast = (title, image = "", duration = 2000, mask) => {
 		mask: true
 	})
 }
+
+//是否已经获得code
+function getWXCode(name) { 
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return decodeURI(r[2]);
+  return null;
+}
+
+function wxAuthorize() {
+	let link = window.location.href;
+	// 已经授权登录过的就不用再授权了
+	// if (store.state.token) return;
+	
+	// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
+	// if (getWXCode("code")) {
+	// 	api.wxAuth(params.code); // 调用后台接口，授权
+	// } else {
+		let appid = 'wxf246b0f9a3dd5503';
+		let uri = encodeURIComponent(link);
+		let authURL =
+			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+		window.location.href = authURL;
+	// }
+}
+
 // 规则判断
 function regexConfig() {
 	var reg = {
@@ -116,5 +142,6 @@ export {
 	netRequest,
 	defineToast,
 	regexConfig,
+	wxAuthorize
 	// uploadImg
 }

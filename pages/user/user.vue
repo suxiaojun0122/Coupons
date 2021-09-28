@@ -43,10 +43,11 @@
 		methods: {
 			//获取微信授权
 			submitForm() {
+				this.$wxAuthorize();
 				// 注意一定要encodeURIComponent 受权成功回调地址  --需要微信开发者平台配置
-				let url = encodeURIComponent('http://192.168.1.12:8096/#/pages/user/user');
-				window.location.href =
-					`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ce7793fbf3e6181&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+				// let url = encodeURIComponent('http://192.168.1.12:8096/#/pages/user/user');
+				// window.location.href =
+				// 	`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf246b0f9a3dd5503&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			},
 			//获取用户信息
 			getInfo() {},

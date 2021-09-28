@@ -15,7 +15,7 @@ Vue.use(uView)
 import 'uview-ui/theme.scss';
 
 //引入封装好的函数
-import {netRequest,defineToast,regexConfig} from './utils/utils.js';
+import {netRequest,defineToast,regexConfig,wxAuthorize} from './utils/utils.js';
 
 //vconsole--移动端调试
 // import VConsole from "vconsole";
@@ -24,6 +24,7 @@ Vue.prototype.$baseUrl = window.global_config.BASE_URL;
 
  
 Vue.prototype.$netReq = netRequest;
+Vue.prototype.$wxAuthorize = wxAuthorize;
 Vue.prototype.$defineToast = defineToast;
 Vue.prototype.$reg = regexConfig;
 Vue.config.productionTip = false
