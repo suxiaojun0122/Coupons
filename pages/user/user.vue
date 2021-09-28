@@ -31,6 +31,7 @@
 		onLoad(option) {
 			this.user_id = uni.getStorageSync("user_id");
 			this.code = option.code
+			console.log(this.code)
 		},
 		methods: {
 			submitForm() {
@@ -39,7 +40,7 @@
 				// window.location.href =
 				// 	`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ce7793fbf3e6181&redirect_uri=http://localhost:8096/#/login&response_type=code&scope=snsapi_userinfo&state=#wechat_redirect`
 				window.location.href =
-					`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1ce7793fbf3e6181&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
+					`https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf246b0f9a3dd5503&redirect_uri=${url}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect`
 			},
 			//跳转优惠券明细
 			mxbtn() {

@@ -10,7 +10,7 @@
 				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="onreachBottomone">
 					<view class="active-color">
 						<!-- 优惠券 -->
-						<view class="consty flexcolumn" v-for="(item,index) in getliat" :key='index'>
+						<view class="consty flexcolumn" v-for="(item,indexs) in getliat" :key='indexs'>
 							<view class="volume" :style="{'background':background}">
 								<view class="top_con flexstart">
 									<view class="topleft_con flexcolumn" :style="{'border-right':borright}">

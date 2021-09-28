@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "优惠券系统",
-  "usingComponents": {}
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-read-more": "/node-modules/uview-ui/components/u-read-more/u-read-more"
+  }
 }
