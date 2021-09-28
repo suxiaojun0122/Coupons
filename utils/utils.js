@@ -113,7 +113,8 @@ function getWXCode(name) {
 }
 
 function wxAuthorize() {
-	let link = window.location.href;
+	// let link = window.location.href;
+	let link = 'https://coupon-system-index.huijik.com';
 	// 已经授权登录过的就不用再授权了
 	// if (store.state.token) return;
 	
