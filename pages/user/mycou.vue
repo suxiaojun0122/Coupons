@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
 		<!-- 选项卡 -->
-		<u-tabs-swiper ref="uTabs" bar-width='109' bar-height='8' active-color='#25AAE5' inactive-color='#0F0E0E' :list="tabs"
-			:current="current" @change="tabsChange" :is-scroll="false" font-size='28'>
+		<u-tabs-swiper ref="uTabs" bar-width='109' bar-height='8' active-color='#25AAE5' inactive-color='#0F0E0E'
+			:list="tabs" :current="current" @change="tabsChange" :is-scroll="false" font-size='28'>
 		</u-tabs-swiper>
 		<view style="height: 10rpx;background-color: #ececec;"></view>
 		<swiper :current="swiperCurrentone" @transition="transition" @animationfinish="animationfinish">
@@ -16,42 +16,43 @@
 									<view class="topleft_con flexcolumn" :style="{'border-right':borright}">
 										<view class="left-a flexstart">
 											<!-- <image :src="questy" ></image> -->
-											<image :src="questy" v-if="item.state==1"></image>
-											<image :src="questyone" v-if="item.state==2"></image>
+											<image :src="questy" v-if="item.type==1"></image>
+											<image :src="questyone" v-if="item.type==2"></image>
 											<!-- <image src="../../static/majh.png"></image> -->
 											<text>元</text>
 										</view>
-										<view class="bigmoney">{{item.money}}</view>
-										<view class="bigmoney_a" v-if="item.state==1">消费满200元</view>
+										<view class="bigmoney">{{parseInt(item.num)}}</view>
+										<view class="bigmoney_a" v-if="item.type==1">消费满{{parseInt(item.condition)}}元
+										</view>
 									</view>
 									<view class="topright_con flexstart" :style="{'border-left':borleft}">
 										<view>
 											<view class="rig_a">
-												航旅节指定出行产品
+												{{item.name}}
 											</view>
 											<view class="rig_d">
-												券码：656989693598
+												券码：<text>{{item.code}}</text>
 											</view>
 											<view class="rig_b">
-												2020.01.02至2021.02.03
+												{{$timestampToTime(item.start_time)}}至{{$timestampToTime(item.end_time)}}
 											</view>
-											<view class="rig_c" v-if="rig_c">复制券码</view>
+											<view class="rig_c" v-if="rig_c"  v-clipboard:copy="item.code" v-clipboard:success="onCopy">复制券码</view>
 										</view>
 										<image class="rig_img" src="../../static/folwer.png"></image>
 									</view>
 								</view>
-								<view class="bottom_con flexcenter">
+								<view class="bottom_con flexcenter" v-if="item.remark">
 									<view class="let_b flexstart">
 										<image src="../../static/twoma.png"></image>
-										<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
-											:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
-											text-indent='0'>
-											<rich-text :nodes="content"></rich-text>
+										<u-read-more class="readmore flexstart" ref="uReadMore"
+											:shadow-style="shadowStyle" :show-height="50" :toggle='true' close-text=''
+											open-text='' color='#000000' text-indent='0'>
+											<rich-text :nodes="item.remark"></rich-text>
 										</u-read-more>
 									</view>
 								</view>
 							</view>
-							
+
 						</view>
 					</view>
 				</scroll-view>
@@ -64,7 +65,6 @@
 	export default {
 		data() {
 			return {
-				content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容111',
 				shadowStyle: {
 					backgroundImage: "none",
 					paddingTop: "0",
@@ -79,55 +79,77 @@
 					name: '已过期',
 					count: 0
 				}],
-				getliat:[
-					{
-						money:'30',
-						state:1
-					},
-					{
-						money:'10',
-						state:2
-					}
-				],
+				getliat: [],
 				current: 0,
 				swiperCurrentone: 0,
-				background:'#DEEBF7',
-				questy:'../../static/maj.png',
-				questyone:'../../static/xj.png',
-				rig_c:true,
-				borleft:'1px dashed #FFFFFF',
-				borright:'1px dashed #FFFFFF'
+				background: '#DEEBF7',
+				questy: '../../static/maj.png',
+				questyone: '../../static/xj.png',
+				rig_c: true,
+				borleft: '1px dashed #FFFFFF',
+				borright: '1px dashed #FFFFFF',
+				page: 1
 			}
 		},
-		mounted() {
+		onLoad() {
+			this.getlist()
 		},
-		watch:{
-			current:{
-				handler(a,b){
+		mounted() {
+			
+		},
+		watch: {
+			current: {
+				handler(a, b) {
 					console.log(a)
-					if(a!=0){
-						this.background='#DEDEDE'
-						this.questy='../../static/majh.png'
-						this.questyone='../../static/xjh.png'
-						this.rig_c=false
-						this.borleft='0'
-						this.borright='1px dashed #FFFFFF'
-					}else{
-						this.background='#DEEBF7'
-						this.questy='../../static/maj.png'
-						this.questyone='../../static/xj.png'
-						this.rig_c=true
-						this.borleft='1px dashed #FFFFFF'
-						this.borright='0'
+					if (a != 0) {
+						this.background = '#DEDEDE'
+						this.questy = '../../static/majh.png'
+						this.questyone = '../../static/xjh.png'
+						this.rig_c = false
+						this.borleft = '0'
+						this.borright = '1px dashed #FFFFFF'
+					} else {
+						this.background = '#DEEBF7'
+						this.questy = '../../static/maj.png'
+						this.questyone = '../../static/xj.png'
+						this.rig_c = true
+						this.borleft = '1px dashed #FFFFFF'
+						this.borright = '0'
 					}
-					// this.goodsList = [];
-					// this.getSearch.page = 1
-					// this.getGoodsListone();
+					this.getliat = [];
+					this.page = 1
+					this.getlist();
 				},
-				immediate:false
+				immediate: false
 			}
 		},
 		methods: {
+			getlist() {
+				let that = this;
+				let method = 'post';
+				let type = '1'
+				if (this.swiperCurrentone == 0) {
+					type = '1'
+				} else if (this.swiperCurrentone == 1) {
+					type = '2'
+				} else if (this.swiperCurrentone == 2) {
+					type = '3'
+				}
+				let data = {
+					'type': type,
+					'page': that.page,
+					'offset': 10
+				}
+				that.$netReq('/user/api/my_coupon', method, data).then(res => {
+					if (res && res.code == 200) {
+						that.getliat = res.data
+					}
+				})
+			},
+			// 复制成功时的回调函数
+			onCopy(e) {
+				this.$defineToast('复制成功')
+			}, 
 			// tabs通知swiper切换
 			tabsChange(index) {
 				this.swiperCurrentone = index;
@@ -148,18 +170,14 @@
 			},
 			// 上滑加载
 			onreachBottomone() {
-				// 	if (this.goodsList.length != 0) {
-				// 		// 当前页已经是最新页
-				// 		if (this.getSearch.page >= this.pageTotal) {
-				// 			// 给出提示  没有更多了
-				// 			this.status = 'nomore';
-				// 			return;
-				// 		};
-				// 		this.status = 'loading';
-
-				// 		this.getSearch.page += 1;
-				// 		this.getGoodsListone();
-				// 	}
+				if (this.getliat.length != 0) {
+					// 当前页已经是最新页
+					if (this.page >= this.getliat.length) {
+						return;
+					};
+					this.page += 1;
+					this.getlist();
+				}
 			},
 		}
 
@@ -167,17 +185,16 @@
 </script>
 
 <style lang="scss" scoped>
-	uni-swiper{
+	uni-swiper {
 		height: 100vh;
 	}
+
 	.content {
 		width: 100%;
 		height: 100%;
 	}
 
-	.active-color {
-		
-	}
+	.active-color {}
 
 	.consty {
 		margin-left: 30rpx;
@@ -200,12 +217,13 @@
 		padding-bottom: 18rpx;
 		width: 530rpx;
 	}
-	
+
 	/deep/.u-content__showmore-wrap {
 		flex: 1;
 		margin-right: 30rpx;
 		margin-left: auto;
 	}
+
 	.volume {
 		// background: #DEDEDE;
 		border-radius: 15rpx;
@@ -256,6 +274,7 @@
 		.topright_con {
 			// border-left: 1px dashed #FFFFFF;
 			padding-bottom: 26rpx;
+
 			.rig_img {
 				display: block;
 				width: 130rpx;
@@ -296,7 +315,8 @@
 				margin-top: 29rpx;
 				padding-bottom: 26rpx;
 			}
-			.rig_d{
+
+			.rig_d {
 				font-size: 22rpx;
 				height: 22rpx;
 				font-weight: bold;
@@ -322,6 +342,7 @@
 					margin-right: 20rpx;
 					margin-top: 22rpx;
 				}
+
 				.readmore {
 					flex: 1;
 					line-height: 36rpx;

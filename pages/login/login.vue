@@ -4,36 +4,25 @@
 		<view class="textname flexcolumn">
 			<view class="telephone flexcenter">
 				<text>手机号码：+86</text>
-				<input placeholder="请输入手机号" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='11'
-					type="number" />
+				<input v-model="telephone" placeholder="请输入手机号" placeholder-style="color: #A4A4A4;font-size:28rpx"
+					maxlength='11' type="number" />
 			</view>
 			<view class="tzpass flexcenter">
 				<text>短信验证码：</text>
-				<input placeholder="请输入短信验证码" placeholder-style="color: #A4A4A4;font-size:28rpx" maxlength='6'
-					type="number" />
-				<view class="button">获取验证码</view>
+				<input v-model="dxcode" placeholder="请输入短信验证码" placeholder-style="color: #A4A4A4;font-size:28rpx"
+					maxlength='6' type="number" />
+				<view class="button">
+					<text v-if="yzshow" @click="getCode">获取验证码</text>
+					<text v-if="!yzshow">{{yzcount}}s</text>
+				</view>
 			</view>
 			<view class="flexcenter">
 				<view class='btn_zc' @tap="zcbtn">立即注册</view>
 			</view>
 		</view>
 		<image src="../../static/headerone.png" class="headerimgone"></image>
-		<view class="footone flexcolumn">
-			<view class="font_a flexcenter marginbottom_30">
-				<view class="font_atext">头等舱优惠券1万张</view>
-				<view class="font_btext">劵面值50元，消费满20元时抵减</view>
-			</view>
-			<view class="font_a flexcenter marginbottom_30">
-				<view class="font_atext">头等舱优惠券1万张</view>
-				<view class="font_btext">劵面值50元，消费满20元时抵减</view>
-			</view>
-			<view class="font_a flexcenter">
-				<view class="font_atext">头等舱优惠券1万张</view>
-				<view class="font_btext">劵面值50元，消费满20元时抵减</view>
-			</view>
-		</view>
 		<view class="footer">
-			头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券头等舱优惠券
+			大兴航空旅游节将依托北京大兴国际机场的便利通达，助力北京锚定‘国际’方向，聚焦‘消费’核心，建成具有全球影响力的国际消费中心城市，引领创新生态的数字消费和新型消费标杆，促进北京服务贸易的发展。由临空区管委会发放“大兴航空旅游节”消费券，用于购买大兴机场出行的相关机票产品，助力大兴航空旅游业态健康发展。
 		</view>
 	</view>
 </template>
@@ -42,22 +31,73 @@
 	export default {
 		data() {
 			return {
-				code: ''
+				telephone: '',
+				dxcode: '',
+				yzshow: true,
+				yzcount: 60
 			}
 		},
-		onLoad(opction) {
-			// this.code = this.getUrlParam('code')
-			// console.log(this.code)
-		},
+		onLoad(opction) {},
 		methods: {
-			zcbtn() {
-				uni.switchTab({
-					url: '../index/index'
-				})
-			},
-			getData(url) {
+			// 获取短信验证码
+			getCode() {
+				console.log(this.telephone.split(''))
+				// 验证码倒计时
+				if(this.telephone && this.telephone.split('').length==11){
+					let that = this;
+					let method = 'post';
+					let data = {
+						'phone': that.telephone
+					}
+					that.$netReq('/user/api/get_code', method, data).then(res => {
+						console.log(res)
+						if(res && res.code==200){
+							that.$defineToast('获取成功')
+							if (!that.timer) {
+								that.yzcount = 60;
+								that.yzshow = false;
+								that.timer = setInterval(() => {
+									if (that.yzcount > 0 && that.yzcount <= 60) {
+										that.yzcount--;
+									} else {
+										that.yzshow = true;
+										clearInterval(that.timer);
+										that.timer = null;
+									}
+								}, 1000);
+							}
+						}else{
+							that.$defineToast('手机号输入错误')
+						}
+						
+					})
+				}else{
+					this.$defineToast('请输入正确的手机号')
+				}
 				
 			},
+			zcbtn() {
+				if(this.telephone && this.dxcode){
+					let that = this;
+					let method = 'post';
+					let data = {
+						'phone': that.telephone,
+						'code':that.dxcode
+					}
+					that.$netReq('/user/api/user_auth', method, data).then(res => {
+						console.log(res)
+						if(res.code==200){
+							uni.switchTab({
+								url: '../user/user',
+							})
+						}else{
+							that.$defineToast(res.message)
+						}
+						
+					})
+				}
+				
+			}
 		}
 	}
 </script>
@@ -160,35 +200,11 @@
 		}
 	}
 
-	.footone {
-		margin: 60rpx 28rpx 0rpx 28rpx;
-
-		.font_a {
-			.font_atext {
-				width: 279rpx;
-				height: 66rpx;
-				background: #DDEBF8;
-				border-radius: 33rpx 0px 0px 33rpx;
-				line-height: 66rpx;
-				text-align: center;
-				font-size: 28rpx;
-				font-weight: 500;
-				color: #000000;
-				margin-right: 12rpx;
-			}
-
-			.font_btext {
-				font-size: 28rpx;
-				font-weight: 500;
-				color: #000000;
-			}
-		}
-	}
-
 	.footer {
 		margin-top: 67rpx;
 		padding: 0rpx 30rpx 65rpx 30rpx;
 		box-sizing: border-box;
-
+		text-indent: 2em;
+		text-align: justify ;
 	}
 </style>

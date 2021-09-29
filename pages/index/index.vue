@@ -17,79 +17,48 @@
 				</view>
 			</view>
 			<view class="mcoupons">
-				<view class="volume" @tap="eventdetailsbtn">
+				<view class="volume" @tap="eventdetailsbtn" v-for="(item,index) in coupon" :key='index'>
 					<view class="top_con flexstart">
 						<view class="topleft_con flexcolumn">
 							<view class="left-a flexstart">
-								<image src="../../static/maj.png"></image>
+								<image src="../../static/maj.png" v-if="item.type==1"></image>
+								<image src="../../static/xj.png" v-if="item.type==2"></image>
 								<text>元</text>
 							</view>
-							<view class="bigmoney">30</view>
-							<!-- <view class="bigmoney_a">消费满200元</view> -->
+							<view class="bigmoney">{{parseInt(item.num)}}</view>
+							<view class="bigmoney_a" v-if="item.type==1">消费满{{parseInt(item.condition)}}元</view>
 						</view>
 						<view class="topright_con flexstart">
 							<view>
 								<view class="rig_a">
-									航旅节指定出行产品
+									{{item.name}}
 								</view>
 								<view class="rig_b">
-									2020.01.02至2021.02.03
+									{{$timestampToTime(item.start_time)}}至{{$timestampToTime(item.end_time)}}
 								</view>
-								<view class="rig_c">立即抢券</view>
+								<view class="rig_c" @tap='qbtn'>立即抢券
+								</view>
 							</view>
 							<image class="rig_img" src="../../static/folwer.png"></image>
 						</view>
 					</view>
-					<view class="bottom_con flexcenter">
+					<view class="bottom_con flexcenter" v-if="item.remark">
 						<view class="let_b flexstart">
 							<image src="../../static/twoma.png"></image>
 							<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
 								:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
 								text-indent='0'>
-								<rich-text :nodes="content"></rich-text>
+								<rich-text :nodes="item.remark"></rich-text>
 							</u-read-more>
 						</view>
 					</view>
 				</view>
-				<view class="volume">
-					<view class="top_con flexstart">
-						<view class="topleft_con flexcolumn">
-							<view class="left-a flexstart">
-								<image src="../../static/maj.png"></image>
-								<text>元</text>
-							</view>
-							<view class="bigmoney">30</view>
-							<view class="bigmoney_a">消费满200元</view>
-						</view>
-						<view class="topright_con flexstart">
-							<view>
-								<view class="rig_a">
-									航旅节指定出行产品
-								</view>
-								<view class="rig_b">
-									2020.01.02至2021.02.03
-								</view>
-								<view class="rig_c">立即抢券</view>
-							</view>
-							<image class="rig_img" src="../../static/folwer.png"></image>
-						</view>
-					</view>
-					<view class="bottom_con flexcenter">
-						<view class="let_b flexstart">
-							<image src="../../static/twoma.png"></image>
-							<u-read-more class="readmore flexstart" ref="uReadMore" :shadow-style="shadowStyle"
-								:show-height="50" :toggle='true' close-text='' open-text='' color='#000000'
-								text-indent='0'>
-								<rich-text :nodes="contents"></rich-text>
-							</u-read-more>
-						</view>
-					</view>
-				</view>
+
 			</view>
 		</view>
 		<view class="textimglist_a">
 			<view class="textimglist_con_a flexcenter">
-				<text class="text_a">中联航精选榜</text>
+				<text class="text_a">行旅节机票</text>
 				<view class="text_b">
 					<text>更多</text>
 					<image src="../../static/right.png"></image>
@@ -103,7 +72,7 @@
 		</view>
 		<view class="textimglist_b">
 			<view class="textimglist_con_c flexcenter">
-				<text class="text_a">跨境免税商品</text>
+				<text class="text_a">航空旅游+购物</text>
 				<view class="text_b">
 					<text>更多</text>
 					<image src="../../static/right.png"></image>
@@ -122,11 +91,10 @@
 	export default {
 		data() {
 			return {
+				coupon: [],
 				swipers: [],
 				imglist: [],
 				imglistone: [],
-				content: '内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容111',
-				contents:'sxj',
 				shadowStyle: {
 					backgroundImage: "none",
 					paddingTop: "0",
@@ -134,25 +102,46 @@
 				},
 			}
 		},
-		onLoad() {			
+		onLoad() {
 			this.swipers = [
-				'https://app-file.beitaichufang.com/img/H5/web/banner/banner20.jpg',
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner22.jpg",
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner23.jpg"
+				'../../static/banner1.png',
+				"../../static/bannertwo.png",
+				"../../static/bannerthree.png",
+				"../../static/bannerfour.png"
 			];
 			this.imglist = [
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner22.jpg",
-				'https://app-file.beitaichufang.com/img/H5/web/banner/banner20.jpg',
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner23.jpg"
+				"../../static/ban1.png",
+				"../../static/ban2.png",
+				"../../static/ban3.png",
+				"../../static/ban4.png"
 			];
 			this.imglistone = [
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner21.jpg",
-				"https://app-file.beitaichufang.com/img/H5/web/banner/banner23.jpg"
+				"../../static/ban1.png",
+				"../../static/ban2.png"
 			]
 		},
+		mounted() {
+			this.getliat()
+		},
 		methods: {
+			getliat() {
+				let that = this;
+				let method = 'post';
+				let data = {}
+				that.$netReq('/user/index_info', method, data).then(res => {
+					console.log(res)
+					if (res && res.code == 200) {
+						this.coupon = res.data.coupon
+					}
+				})
+			},
+			qbtn() {
+				uni.showModal({
+				    title: '敬请恭候',
+				    content: '2021年10月开始领券',
+					showCancel:false
+				});
+			},
 			//点击轮播图详情
 			swipersbtn(index) {
 
@@ -417,6 +406,7 @@
 					display: inline-block;
 					width: 320rpx;
 					height: 227rpx;
+					border-radius: 10rpx;
 				}
 			}
 
@@ -474,6 +464,7 @@
 					display: inline-block;
 					width: 100%;
 					height: 230rpx;
+					border-radius: 10rpx;
 				}
 			}
 		}

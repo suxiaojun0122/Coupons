@@ -18,7 +18,7 @@ const netRequest = (url, method = "POST", params, httpHeader = "application/json
 			data: params || {},
 			header: {
 				'content-type': httpHeader,
-				'token': store.state.token,
+				'token':localStorage.getItem('token')?localStorage.getItem('token'):''
 			},
 			success(r) {
 				// uni.hideLoading()
@@ -28,35 +28,12 @@ const netRequest = (url, method = "POST", params, httpHeader = "application/json
 				if (r.data.code == 401 || r.data.code == 1006) {
 					defineToast(r.data.code)
 					uni.clearStorageSync();
-					// if (uni.getSystemInfoSync().platform === 'ios') {
-					// 	window.webkit.messageHandlers.doAction.postMessage(JSON.stringify({
-					// 		"event": "web_close"
-					// 	}))
-					// } else if (uni.getSystemInfoSync().platform === 'android') {
-					// 	window.doAction.postMessage(JSON.stringify({
-					// 		"event": "web_close"
-					// 	}))
-					// }
-				} else if (r.data.code == 400) {
-					uni.showToast({
-						icon: 'none',
-						title: r.data.msg,
-						duration: 5000,
-						position: 'bottom'
-					});
 				} else {
 					res(r.data)
 				}
 			},
 			fail() {
 				uni.hideLoading()
-				// if (url.indexOf('/trip/businesstravel/companyInfo') != -1) {
-				// 	uni.navigateTo({
-				// 		url: '/components/components/error/index'
-				// 	})
-				// } else {
-				// 	defineToast('请求超时,稍候再试')
-				// }
 				defineToast('请求超时,稍候再试')
 
 			}
@@ -103,37 +80,68 @@ const defineToast = (title, image = "", duration = 2000, mask) => {
 }
 
 //是否已经获得code
-function getWXCode(name) { 
-  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  console.log(window.location.search,'浏览器地址')
-  var r = window.location.search.substr(1).match(reg);
-  console.log(r,'code值')
-  if (r != null) return decodeURI(r[2]);
-  return null;
+function getWXCode(name) {
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	console.log(window.location.search, '浏览器地址')
+	var r = window.location.search.substr(1).match(reg);
+	console.log(r, 'r值')
+	if (r != null) return decodeURI(r[2]);
+	return null;
 }
+var code = ''
 
 function wxAuthorize() {
 	let link = window.location.href;
-	console.log(link,'window.location.href')
+	console.log(link, 'window.location.href')
 	// let link = 'https://coupon-system-index.huijik.com';
 	// 已经授权登录过的就不用再授权了
-	// if (store.state.token) return;
-	
+	// if (localStorage.getItem('token')) return;
+
 	// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 	// if (getWXCode("code")) {
-	// 	api.wxAuth(params.code); // 调用后台接口，授权
+	// 	code=getWXCode('code')
+	// 	console.log(code,'code值')
+	// 	this.getInfo()
 	// } else {
-		// let appid = 'wxf246b0f9a3dd5503';
-		let appid='wxf246b0f9a3dd5503'
-		let uri = encodeURIComponent(link);
-		let authURL =
-			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
-		window.location.href = authURL;
+	// let appid = 'wxf246b0f9a3dd5503';
+	let appid = 'wxf246b0f9a3dd5503'
+	let uri = encodeURIComponent(link);
+	let authURL =
+		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+	window.location.href = authURL;
 	// }
 }
+if (getWXCode('code')) {
+	code = getWXCode('code')
+	getInfo()
+}
 //获取用户信息 是否需要注册  获取token
-function getuser(){
-	
+function getInfo() {
+	let that = this;
+	let method = 'post';
+	netRequest('/user/login', method, {
+		'code': code
+	}).then(res => {
+		if (res && res.data && res.data.token) {
+			localStorage.setItem('token', res.data.token)
+			console.log(res.data.token, 'token值')
+		}
+		if (res.code == 202) {
+			uni.navigateTo({
+				url: '/pages/login/login'
+			})
+			store.commit('usernames', res.data.nick_name)
+			console.log(res.data.avatar_url)
+			store.commit('avatar_urls',res.data.avatar_url)
+		} else if (res.code == 200) {
+			store.commit('usernames', res.data.nick_name)
+			console.log(res.data.avatar_url)
+			store.commit('avatar_urls',res.data.avatar_url)
+		} else {
+			console.log('erro')
+		}
+
+	})
 }
 
 // 规则判断
@@ -145,11 +153,22 @@ function regexConfig() {
 	}
 	return reg;
 }
+
+// 时间戳转换成日期
+function timestampToTime(timestamp) {
+	var date = new Date(timestamp * 1000); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
+	let Y = date.getFullYear() + '.';
+	let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '.';
+	let D = date.getDate() + ' ';
+	return Y + M + D;
+}
 export {
 	netRequest,
 	defineToast,
 	regexConfig,
 	wxAuthorize,
-	getWXCode
+	getWXCode,
+	getInfo,
+	timestampToTime
 	// uploadImg
 }

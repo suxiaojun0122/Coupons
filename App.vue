@@ -1,6 +1,7 @@
 <script>
 	export default {
 		mounted() {
+			console.log(localStorage.getItem('token'))
 			//在页面加载时读取sessionStorage里的状态信息
 			if (sessionStorage.getItem("store")) {
 				this.$store.replaceState(

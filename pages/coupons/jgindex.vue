@@ -11,7 +11,7 @@
 		<view v-if="noshow">
 			<image class="cgimg" src="../../static/sb.png"></image>
 			<view class="oksty">优惠券领取失败</view>
-			<view class="cgbtn">再次领取</view>
+			<view class="cgbtn" @tap='zaicibtn'>再次领取</view>
 			<view class="fhbtn" @tap="retbtn">返回</view>
 		</view>
 	</view>
@@ -22,7 +22,8 @@
 		data(){
 			return{
 				yesshow:true,//领取成功
-				noshow:false//领取失败
+				noshow:false,//领取失败
+				id:''
 			}
 		},
 		methods:{
@@ -32,10 +33,32 @@
 				})
 			},
 			retbtn(){
-				uni.navigateBack({
-					delta:1
+				uni.navigateTo({
+					url:'./coupons'
+				})
+			},
+			zaicibtn(){
+				let that = this;
+				let method = 'post';
+				let data = {
+					'id': this.id
+				}
+				that.$netReq('/user/api/receive_coupon', method, data).then(res => {
+					if(res && res.code==200){
+						this.yesshow=true//领取成功
+					}else{
+						this.noshow=false//领取失败
+					}
 				})
 			}
+		},
+		onLoad(option) {
+			if(option.state==200){
+				this.yesshow=true//领取成功
+			}else{
+				this.noshow=false//领取失败
+			}
+			this.id=option.id
 		}
 	}
 </script>

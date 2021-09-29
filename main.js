@@ -4,6 +4,9 @@ import config from "@/config.js"
 //引入vuex
 import store from './store'
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 //把vuex定义成全局组件
 Vue.prototype.$store = store;
 Vue.config.productionTip = false;
@@ -15,7 +18,7 @@ Vue.use(uView)
 import 'uview-ui/theme.scss';
 
 //引入封装好的函数
-import {netRequest,defineToast,regexConfig,wxAuthorize,getWXCode} from './utils/utils.js';
+import {netRequest,defineToast,regexConfig,wxAuthorize,getWXCode,getInfo,timestampToTime} from './utils/utils.js';
 
 //vconsole--移动端调试
 import VConsole from "vconsole";
@@ -25,13 +28,15 @@ Vue.prototype.$baseUrl = window.global_config.BASE_URL;
  
 Vue.prototype.$netReq = netRequest;
 Vue.prototype.$getWXCode= getWXCode;
+Vue.prototype.$getInfo=getInfo;
 Vue.prototype.$wxAuthorize = wxAuthorize;
 Vue.prototype.$defineToast = defineToast;
 Vue.prototype.$reg = regexConfig;
+Vue.prototype.$timestampToTime=timestampToTime;
 Vue.config.productionTip = false
 //vconsole需移动端测试打开
-const vConsole = new VConsole();
-Vue.use(vConsole);
+// const vConsole = new VConsole();
+// Vue.use(vConsole);
 
 App.mpType = 'app'
 
