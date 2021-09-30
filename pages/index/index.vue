@@ -33,9 +33,9 @@
 								<view class="rig_a">
 									{{item.name}}
 								</view>
-								<view class="rig_b">
+								<!-- <view class="rig_b">
 									{{$timestampToTime(item.start_time)}}至{{$timestampToTime(item.end_time)}}
-								</view>
+								</view> -->
 								<view class="rig_c" @tap='qbtn'>立即抢券
 								</view>
 							</view>
@@ -58,7 +58,7 @@
 		</view>
 		<view class="textimglist_a">
 			<view class="textimglist_con_a flexcenter">
-				<text class="text_a">行旅节机票</text>
+				<text class="text_a">航旅节机票</text>
 				<view class="text_b">
 					<text>更多</text>
 					<image src="../../static/right.png"></image>
@@ -116,8 +116,8 @@
 				"../../static/ban4.png"
 			];
 			this.imglistone = [
-				"../../static/ban1.png",
-				"../../static/ban2.png"
+				"../../static/ban.png",
+				"../../static/ban.png"
 			]
 		},
 		mounted() {
@@ -295,7 +295,7 @@
 				height: 32rpx;
 				font-weight: bold;
 				color: #000000;
-				margin-top: 30rpx;
+				margin-top: 40rpx;
 				margin-left: 22rpx;
 			}
 
@@ -319,7 +319,7 @@
 				font-weight: bold;
 				color: #FFFFFF;
 				margin-left: 22rpx;
-				margin-top: 23rpx;
+				margin-top: 43rpx;
 			}
 		}
 

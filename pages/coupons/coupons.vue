@@ -19,9 +19,9 @@
 								<view class="rig_a">
 									{{item.name}}
 								</view>
-								<view class="rig_b">
+								<!-- <view class="rig_b">
 									{{$timestampToTime(item.start_time)}}至{{$timestampToTime(item.end_time)}}
-								</view>
+								</view> -->
 								<view class="rig_c" @tap="qbtn(item)">立即抢券</view>
 							</view>
 							<image class="rig_img" src="../../static/folwer.png"></image>
@@ -196,7 +196,7 @@
 				height: 32rpx;
 				font-weight: bold;
 				color: #000000;
-				margin-top: 30rpx;
+				margin-top: 40rpx;
 				margin-left: 22rpx;
 			}
 
@@ -220,7 +220,7 @@
 				font-weight: bold;
 				color: #FFFFFF;
 				margin-left: 22rpx;
-				margin-top: 23rpx;
+				margin-top: 33rpx;
 			}
 		}
 
