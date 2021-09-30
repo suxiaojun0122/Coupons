@@ -111,7 +111,7 @@ function wxAuthorize() {
 	window.location.href = authURL;
 	// }
 }
-if (getWXCode('code')) {
+if (getWXCode('code') && localStorage.getItem('token')!='') {
 	code = getWXCode('code')
 	getInfo()
 }
@@ -124,18 +124,17 @@ function getInfo() {
 	}).then(res => {
 		if (res && res.data && res.data.token) {
 			localStorage.setItem('token', res.data.token)
-			console.log(res.data.token, 'token值')
+		}else{
+			localStorage.setItem('token', '')
 		}
 		if (res.code == 202) {
 			uni.navigateTo({
 				url: '/pages/login/login'
 			})
 			store.commit('usernames', res.data.nick_name)
-			console.log(res.data.avatar_url)
 			store.commit('avatar_urls',res.data.avatar_url)
 		} else if (res.code == 200) {
 			store.commit('usernames', res.data.nick_name)
-			console.log(res.data.avatar_url)
 			store.commit('avatar_urls',res.data.avatar_url)
 		} else {
 			console.log('erro')

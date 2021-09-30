@@ -10,9 +10,9 @@
 		</view>
 		<view class="textimglist flexcolumn">
 			<view class="textimglist_con flexcenter">
-				<text class="text_a">旅游节优惠券</text>
+				<text class="text_a">航旅节优惠券</text>
 				<view class="text_b">
-					<text>更多</text>
+					<text @tap='gengduoone'>更多</text>
 					<image src="../../static/right.png"></image>
 				</view>
 			</view>
@@ -58,9 +58,9 @@
 		</view>
 		<view class="textimglist_a">
 			<view class="textimglist_con_a flexcenter">
-				<text class="text_a">航旅节机票</text>
+				<text class="text_a">航空旅游活动</text>
 				<view class="text_b">
-					<text>更多</text>
+					<text @tap='gengduo'>更多</text>
 					<image src="../../static/right.png"></image>
 				</view>
 			</view>
@@ -104,20 +104,20 @@
 		},
 		onLoad() {
 			this.swipers = [
-				'../../static/banner1.png',
-				"../../static/bannertwo.png",
-				"../../static/bannerthree.png",
-				"../../static/bannerfour.png"
+				'../../static/banner2.png',
+				"../../static/banner3.png",
+				"../../static/banner4.png"
+				// "../../static/banner5.png"
 			];
 			this.imglist = [
-				"../../static/ban1.png",
-				"../../static/ban2.png",
-				"../../static/ban3.png",
-				"../../static/ban4.png"
+				"../../static/banone.png",
+				"../../static/bantwo.png",
+				"../../static/banthree.png",
+				"../../static/banfour.png"
 			];
 			this.imglistone = [
-				"../../static/ban.png",
-				"../../static/ban.png"
+				"../../static/b.png",
+				"../../static/b.png"
 			]
 		},
 		mounted() {
@@ -149,6 +149,14 @@
 			//点击活动详情
 			eventdetailsbtn() {
 
+			},
+			gengduo(){
+				window.location.href='https://wx.17u.cn/marktingapwebservice/activity/page/APAC142834KU20Z7CWR'			
+			},
+			gengduoone(){
+				uni.switchTab({
+					url:'../coupons/coupons'
+				})
 			}
 		}
 	}
@@ -164,6 +172,7 @@
 	.home {
 		swiper {
 			width: 690rpx;
+			height: 240rpx;
 			margin: auto;
 			border-radius: 10rpx;
 			margin-top: 30rpx;
