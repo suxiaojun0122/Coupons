@@ -18,7 +18,7 @@ const netRequest = (url, method = "POST", params, httpHeader = "application/json
 			data: params || {},
 			header: {
 				'content-type': httpHeader,
-				'token':localStorage.getItem('token')?localStorage.getItem('token'):''
+				'token': localStorage.getItem('token') ? localStorage.getItem('token') : ''
 			},
 			success(r) {
 				// uni.hideLoading()
@@ -99,19 +99,18 @@ function wxAuthorize() {
 
 	// 如果拿到code，调用授权接口，没有拿到就跳转微信授权链接获取
 	// if (getWXCode("code")) {
-	// 	code=getWXCode('code')
-	// 	console.log(code,'code值')
-	// 	this.getInfo()
+	// 	code = getWXCode('code')
+	// 	console.log(code, 'code值')
+	// 	getInfo()
 	// } else {
-	// let appid = 'wxf246b0f9a3dd5503';
-	let appid = 'wxf246b0f9a3dd5503'
-	let uri = encodeURIComponent(link);
-	let authURL =
-		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
-	window.location.href = authURL;
+		let appid = 'wxf246b0f9a3dd5503';
+		let uri = encodeURIComponent(link);
+		let authURL =
+			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+		window.location.href = authURL;
 	// }
 }
-if (getWXCode('code') && localStorage.getItem('token')!='') {
+if (getWXCode('code')) {
 	code = getWXCode('code')
 	getInfo()
 }
@@ -124,18 +123,24 @@ function getInfo() {
 	}).then(res => {
 		if (res && res.data && res.data.token) {
 			localStorage.setItem('token', res.data.token)
-		}else{
+		} else {
 			localStorage.setItem('token', '')
 		}
 		if (res.code == 202) {
 			uni.navigateTo({
 				url: '/pages/login/login'
 			})
+			localStorage.setItem('usernames', res.data.nick_name)
+			localStorage.setItem('avatar_urls', res.data.avatar_url)
 			store.commit('usernames', res.data.nick_name)
-			store.commit('avatar_urls',res.data.avatar_url)
+			store.commit('avatar_urls', res.data.avatar_url)
 		} else if (res.code == 200) {
+			localStorage.setItem('usernames', res.data.nick_name)
+			localStorage.setItem('avatar_urls', res.data.avatar_url)
 			store.commit('usernames', res.data.nick_name)
-			store.commit('avatar_urls',res.data.avatar_url)
+			store.commit('avatar_urls', res.data.avatar_url)
+			console.log(window.location)
+			window.location.href=window.location.origin+window.location.hash
 		} else {
 			console.log('erro')
 		}

@@ -2,8 +2,8 @@
 	<view class="content">
 		<z-paging ref="paging" v-model="coulist" @query="getliat">
 			<!-- 优惠券 -->
-			<view class="consty flexcolumn">
-				<view class="volume" v-for="(item,index) in coulist" :key='index'>
+			<view class="consty flexcolumn" v-for="(item,index) in coulist" :key='index'>
+				<view :class="item.type==1?'volume volumeone':'volume volumetwo'">
 					<view class="top_con flexstart">
 						<view class="topleft_con flexcolumn">
 							<view class="left-a flexstart">
@@ -59,29 +59,29 @@
 		mounted() {},
 		methods: {
 			qbtn(item) {
-				uni.showModal({
-				    title: '敬请恭候',
-				    content: '2021年10月开始领券',
-					showCancel:false
-				});
-				// if (this.$getWXCode('code')) {
-				// 	let that = this;
-				// 	let method = 'post';
-				// 	let data = {
-				// 		'id': item.id,
-				// 		'token':localStorage.getItem('token')
-				// 	}
-				// 	that.$netReq('/user/api/receive_coupon', method, data).then(res => {
-				// 		console.log(res)
-				// 		uni.navigateTo({
-				// 			url: './jgindex?state=' + res.code +'&id=' + item.id
-				// 		})
+				// uni.showModal({
+				//     title: '敬请恭候',
+				//     content: '2021年10月开始领券',
+				// 	showCancel:false
+				// });
+				if (localStorage.getItem('token')) {
+					let that = this;
+					let method = 'post';
+					let data = {
+						'id': item.id,
+						'token':localStorage.getItem('token')
+					}
+					that.$netReq('/user/api/receive_coupon', method, data).then(res => {
+						console.log(res)
+						uni.navigateTo({
+							url: './jgindex?state=' + res.code +'&id=' + item.id
+						})
 						
-				// 	})
-				// } else {
-				// 	console.log('未授权')
-				// 	this.$wxAuthorize();
-				// }
+					})
+				} else {
+					console.log('未授权')
+					this.$wxAuthorize();
+				}
 			},
 			getliat(pageNo, pageSize) {
 				//这里的pageNo和pageSize会自动计算好，直接传给服务器即可
@@ -130,9 +130,15 @@
 		margin-right: 30rpx;
 		margin-left: auto;
 	}
-
-	.volume {
+	
+	.volumeone {
 		background: #E2F0D9;
+	}
+	
+	.volumetwo {
+		background: #DEEBF7;
+	}
+	.volume {
 		border-radius: 15rpx;
 		margin-bottom: 20rpx;
 

@@ -33,9 +33,12 @@
 				})
 			},
 			retbtn(){
-				uni.navigateTo({
-					url:'./coupons'
+				uni.navigateBack({
+					delta:1
 				})
+				// uni.navigateTo({
+				// 	url:'./coupons'
+				// })
 			},
 			zaicibtn(){
 				let that = this;

@@ -1,10 +1,10 @@
 <template>
 	<view class="content">
-		<view class="header flexcenter" v-if="$getWXCode('code')">
-			<image :src="$store.state.avatarurl" mode="aspectFill"></image>
-			<text>{{$store.state.username}}</text>
+		<view class="header flexcenter" v-if="token">
+			<image :src="avatar_urls" mode="aspectFill"></image>
+			<text>{{usernames}}</text>
 		</view>
-		<view class="header flexcenter" v-if="!$getWXCode('code')">
+		<view class="header flexcenter" v-if="!token">
 			<image src="../../static/wdl.png" mode="aspectFill"></image>
 			<text @click="submitForm">立即登录</text>
 		</view>
@@ -28,18 +28,41 @@
 		data() {
 			return {
 				code: '',
+				token:'',
+				usernames:'',
+				avatar_urls:''
 			}
 		},
 		onLoad(option) {
-			
+			if(localStorage.getItem('token')){
+				this.token=localStorage.getItem('token')
+			}else{
+				this.token=''
+			}
+			if(localStorage.getItem('usernames')){
+				this.usernames=localStorage.getItem('usernames')
+			}
+			if(localStorage.getItem('avatar_urls')){
+				this.avatar_urls=localStorage.getItem('avatar_urls')
+			}
+		},
+		mounted() {
+			if(localStorage.getItem('token')){
+				this.token=localStorage.getItem('token')
+			}else{
+				this.token=''
+			}
+			if(localStorage.getItem('usernames')){
+				this.usernames=localStorage.getItem('usernames')
+			}
+			if(localStorage.getItem('avatar_urls')){
+				this.avatar_urls=localStorage.getItem('avatar_urls')
+			}
 		},
 		methods: {
 			//获取微信授权
 			submitForm() {
-				if (!this.$getWXCode('code')) {
-					console.log('未授权')
-					this.$wxAuthorize();
-				}
+				this.$wxAuthorize();
 			},
 			//跳转优惠券明细
 			mxbtn() {
@@ -54,14 +77,14 @@
 			},
 			//跳转我的优惠券
 			mybtn() {
-				// if (!this.$getWXCode('code')) {
-				// 	console.log('未授权')
-				// 	this.$wxAuthorize();
-				// }else{
-				// 	uni.navigateTo({
-				// 		url: './mycou'
-				// 	})
-				// }
+				if (!localStorage.getItem('token')) {
+					console.log('未授权')
+					this.$wxAuthorize();
+				}else{
+					uni.navigateTo({
+						url: './mycou'
+					})
+				}
 			},
 		}
 	}

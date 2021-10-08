@@ -35,8 +35,8 @@ Vue.prototype.$reg = regexConfig;
 Vue.prototype.$timestampToTime=timestampToTime;
 Vue.config.productionTip = false
 //vconsole需移动端测试打开
-// const vConsole = new VConsole();
-// Vue.use(vConsole);
+const vConsole = new VConsole();
+Vue.use(vConsole);
 
 App.mpType = 'app'
 

@@ -5,13 +5,18 @@
 			:list="tabs" :current="current" @change="tabsChange" :is-scroll="false" font-size='28'>
 		</u-tabs-swiper>
 		<view style="height: 10rpx;background-color: #ececec;"></view>
+		<view class="zwsj-box" v-if="getliat.length == 0">
+			<view class="no-content">
+				暂无优惠券
+			</view>
+		</view>
 		<swiper :current="swiperCurrentone" @transition="transition" @animationfinish="animationfinish">
 			<swiper-item v-for="(item, index) in tabs" :key="index">
 				<scroll-view scroll-y style="height: 100%;width: 100%;" @scrolltolower="onreachBottomone">
 					<view class="active-color">
 						<!-- 优惠券 -->
 						<view class="consty flexcolumn" v-for="(item,indexs) in getliat" :key='indexs'>
-							<view class="volume" :style="{'background':background}">
+							<view :class="item.type==1?'volume volumeone':'volume volumetwo'" :style="{'background':background}">
 								<view class="top_con flexstart">
 									<view class="topleft_con flexcolumn" :style="{'border-right':borright}">
 										<view class="left-a flexstart">
@@ -55,6 +60,8 @@
 
 						</view>
 					</view>
+					<u-loadmore :status="status" :icon-type="iconType" :load-text="loadText"
+						v-if="getliat.length != 0" />
 				</scroll-view>
 			</swiper-item>
 		</swiper>
@@ -82,13 +89,20 @@
 				getliat: [],
 				current: 0,
 				swiperCurrentone: 0,
-				background: '#DEEBF7',
+				background: '',
 				questy: '../../static/maj.png',
 				questyone: '../../static/xj.png',
 				rig_c: true,
 				borleft: '1px dashed #FFFFFF',
 				borright: '1px dashed #FFFFFF',
-				page: 1
+				page: 1,
+				status: 'loadmore',
+				iconType: 'flower',
+				loadText: {
+					loadmore: '轻轻上拉',
+					loading: '努力加载中',
+					nomore: '实在没有了'
+				},
 			}
 		},
 		onLoad() {
@@ -109,7 +123,7 @@
 						this.borleft = '0'
 						this.borright = '1px dashed #FFFFFF'
 					} else {
-						this.background = '#DEEBF7'
+						this.background = ''
 						this.questy = '../../static/maj.png'
 						this.questyone = '../../static/xj.png'
 						this.rig_c = true
@@ -142,7 +156,18 @@
 				}
 				that.$netReq('/user/api/my_coupon', method, data).then(res => {
 					if (res && res.code == 200) {
-						that.getliat = res.data
+						// that.getliat = res.data
+						// 拼接列表
+						if (that.getliat.length != 0) {
+							// this.goodsList = []
+							if (that.page == 1) {
+								that.getliat = []
+							}
+							that.getliat = that.getliat.concat(res.data)
+							that.status = 'nomore';
+						} else {
+							that.getliat = res.data
+						}
 					}
 				})
 			},
@@ -172,11 +197,16 @@
 			onreachBottomone() {
 				if (this.getliat.length != 0) {
 					// 当前页已经是最新页
-					if (this.page >= this.getliat.length) {
+					console.log(this.getliat.length)
+					if (this.getliat.length<10) {
+						this.status = 'nomore';
 						return;
-					};
-					this.page += 1;
-					this.getlist();
+					}else{
+						this.status = 'loading';
+						this.page += 1;
+						this.getlist();
+					}
+					
 				}
 			},
 		}
@@ -192,6 +222,21 @@
 	.content {
 		width: 100%;
 		height: 100%;
+	}
+	.zwsj-box {
+		width: 366rpx;
+		height: 400rpx;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.no-content {
+		display: flex;
+		justify-content: center;
+		// margin-top: 40rpx;
+		// font-size: ;
+		// color: #CCCCCC;
 	}
 
 	.active-color {}
@@ -223,7 +268,15 @@
 		margin-right: 30rpx;
 		margin-left: auto;
 	}
-
+	
+	.volumeone {
+		background: #E2F0D9;
+	}
+	
+	.volumetwo {
+		background: #DEEBF7;
+	}
+	
 	.volume {
 		// background: #DEDEDE;
 		border-radius: 15rpx;

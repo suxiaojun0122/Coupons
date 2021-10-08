@@ -16,8 +16,8 @@
 					<image src="../../static/right.png"></image>
 				</view>
 			</view>
-			<view class="mcoupons">
-				<view class="volume" @tap="eventdetailsbtn" v-for="(item,index) in coupon" :key='index'>
+			<view class="mcoupons" @tap="eventdetailsbtn" v-for="(item,index) in coupon" :key='index'>
+				<view :class="item.type==1?'volume volumeone':'volume volumetwo'">
 					<view class="top_con flexstart">
 						<view class="topleft_con flexcolumn">
 							<view class="left-a flexstart">
@@ -36,7 +36,7 @@
 								<!-- <view class="rig_b">
 									{{$timestampToTime(item.start_time)}}至{{$timestampToTime(item.end_time)}}
 								</view> -->
-								<view class="rig_c" @tap='qbtn'>立即抢券
+								<view class="rig_c" @tap='qbtn(item)'>立即抢券
 								</view>
 							</view>
 							<image class="rig_img" src="../../static/folwer.png"></image>
@@ -135,12 +135,25 @@
 					}
 				})
 			},
-			qbtn() {
-				uni.showModal({
-				    title: '敬请恭候',
-				    content: '2021年10月开始领券',
-					showCancel:false
-				});
+			qbtn(item) {
+				if (localStorage.getItem('token')) {
+					let that = this;
+					let method = 'post';
+					let data = {
+						'id': item.id,
+						'token': localStorage.getItem('token')
+					}
+					that.$netReq('/user/api/receive_coupon', method, data).then(res => {
+						console.log(res)
+						uni.navigateTo({
+							url: '../coupons/jgindex?state=' + res.code + '&id=' + item.id
+						})
+
+					})
+				} else {
+					console.log('未授权')
+					this.$wxAuthorize();
+				}
 			},
 			//点击轮播图详情
 			swipersbtn(index) {
@@ -150,12 +163,12 @@
 			eventdetailsbtn() {
 
 			},
-			gengduo(){
-				window.location.href='https://wx.17u.cn/marktingapwebservice/activity/page/APAC142834KU20Z7CWR'			
+			gengduo() {
+				window.location.href = 'https://wx.17u.cn/marktingapwebservice/activity/page/APAC142834KU20Z7CWR'
 			},
-			gengduoone(){
+			gengduoone() {
 				uni.switchTab({
-					url:'../coupons/coupons'
+					url: '../coupons/coupons'
 				})
 			}
 		}
@@ -239,8 +252,15 @@
 		margin-left: auto;
 	}
 
-	.volume {
+	.volumeone {
 		background: #E2F0D9;
+	}
+
+	.volumetwo {
+		background: #DEEBF7;
+	}
+
+	.volume {
 		border-radius: 15rpx;
 		margin-bottom: 20rpx;
 
