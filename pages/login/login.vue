@@ -87,14 +87,7 @@
 					that.$netReq('/user/api/user_auth', method, data).then(res => {
 						console.log(res)
 						if(res.code==200){
-							uni.switchTab({
-								url: '../user/user',
-								success() {
-									setTimeout(() => {
-										location.reload()
-									}, 500);
-								}
-							})
+							window.location.href = window.location.origin+'/#/pages/user/user'
 						}else{
 							that.$defineToast(res.message)
 						}
