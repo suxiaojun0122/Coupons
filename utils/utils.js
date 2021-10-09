@@ -21,16 +21,29 @@ const netRequest = (url, method = "POST", params, httpHeader = "application/json
 				'token': localStorage.getItem('token') ? localStorage.getItem('token') : ''
 			},
 			success(r) {
+				console.log(r)
 				// uni.hideLoading()
 				setTimeout(function() {
 					uni.hideLoading();
 				}, 1000);
-				if (r.data.code == 401 || r.data.code == 1006) {
-					defineToast(r.data.code)
-					uni.clearStorageSync();
+				if (r.data.code == 412) {
+					uni.showModal({
+						title: '登录过期',
+						content: r.data.message,
+						showCancel: false,
+						success(res) {
+							if (res.confirm) {
+								uni.clearStorageSync();
+								localStorage.clear()
+								window.location.href = window.location.origin+'/#/pages/user/user'
+							}
+						}
+					});
+
 				} else {
 					res(r.data)
 				}
+
 			},
 			fail() {
 				uni.hideLoading()
@@ -103,11 +116,11 @@ function wxAuthorize() {
 	// 	console.log(code, 'code值')
 	// 	getInfo()
 	// } else {
-		let appid = 'wxf246b0f9a3dd5503';
-		let uri = encodeURIComponent(link);
-		let authURL =
-			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
-		window.location.href = authURL;
+	let appid = 'wxf246b0f9a3dd5503';
+	let uri = encodeURIComponent(link);
+	let authURL =
+		`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${uri}&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect`;
+	window.location.href = authURL;
 	// }
 }
 if (getWXCode('code')) {
@@ -140,7 +153,7 @@ function getInfo() {
 			store.commit('usernames', res.data.nick_name)
 			store.commit('avatar_urls', res.data.avatar_url)
 			console.log(window.location)
-			window.location.href=window.location.origin+window.location.hash
+			window.location.href = window.location.origin + window.location.hash
 		} else {
 			console.log('erro')
 		}

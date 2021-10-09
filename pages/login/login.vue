@@ -89,6 +89,11 @@
 						if(res.code==200){
 							uni.switchTab({
 								url: '../user/user',
+								success() {
+									setTimeout(() => {
+										location.reload()
+									}, 500);
+								}
 							})
 						}else{
 							that.$defineToast(res.message)

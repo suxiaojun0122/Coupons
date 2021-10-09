@@ -11,8 +11,8 @@
 		<view class="textimglist flexcolumn">
 			<view class="textimglist_con flexcenter">
 				<text class="text_a">航旅节优惠券</text>
-				<view class="text_b">
-					<text @tap='gengduoone'>更多</text>
+				<view class="text_b" @tap='gengduoone'>
+					<text>更多</text>
 					<image src="../../static/right.png"></image>
 				</view>
 			</view>
@@ -59,8 +59,8 @@
 		<view class="textimglist_a">
 			<view class="textimglist_con_a flexcenter">
 				<text class="text_a">航空旅游活动</text>
-				<view class="text_b">
-					<text @tap='gengduo'>更多</text>
+				<view class="text_b" @tap='gengduo'>
+					<text>更多</text>
 					<image src="../../static/right.png"></image>
 				</view>
 			</view>
@@ -136,6 +136,11 @@
 				})
 			},
 			qbtn(item) {
+				// uni.showModal({
+				//     title: '敬请恭候',
+				//     content: '2021年10月开始领券',
+				// 	showCancel:false
+				// });
 				if (localStorage.getItem('token')) {
 					let that = this;
 					let method = 'post';
